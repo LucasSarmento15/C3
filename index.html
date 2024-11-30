@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Adivinhação de Cores</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .corpo {
+        max-width: 400px;
+        margin: 0 auto;
+        }
+        #ajuda {
+        margin-top: 20px;
+        font-size: 1.2em;
+        }
+
+        input[type="text"] {
+        padding: 10px;
+        font-size: 1em;
+        width: calc(100% - 20px);
+        }
+
+        button {
+        padding: 10px 20px;
+        font-size: 1em;
+        cursor: pointer;
+        margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="corpo">
+        <h1>Jogo de Adivinhação de Cores</h1>
+        <p>Estou pensando em uma destas cores:</p>
+        <p id="lista-cor"></p>
+        <p>Qual cor estou pensando</p>
+        <input type="text" id="cor-input" placeholder="Digite uma cor">
+        <button id="botão">Adivinhar</button>
+        <div id="ajuda"></div>
+        
+    </div>
+
+    <script>
+        const cores = ["aliceblue", "antiquewhite", "aqua", "aquamarine", "azure", "beige", "bisque", "black", "blanchedalmond", "blue", "blueviolet", "brown", "burlywood", "cadetblue", "chartreuse", "chocolate", "coral", "cornflowerblue", "cornsilk", "crimson", "cyan", "darkblue", "darkcyan", "darkgoldenrod", "darkgray", "darkgreen", "darkkhaki", "darkmagenta", "darkolivegreen", "darkorange", "darkorchid", "darkred", "darksalmon", "darkseagreen", "darkslateblue", "darkslategray", "darkturquoise", "darkviolet", "deeppink", "deepskyblue", "dimgray", "dodgerblue", "firebrick", "floralwhite", "forestgreen", "fuchsia", "gainsboro", "ghostwhite", "gold", "goldenrod", "gray", "green", "greenyellow", "honeydew", "hotpink", "indianred", "indigo", "ivory", "khaki", "lavender", "lavenderblush", "lawngreen", "lemonchiffon", "lightblue", "lightcoral", "lightcyan", "lightgoldenrodyellow", "lightgray", "lightgreen", "lightpink", "lightsalmon", "lightseagreen", "lightskyblue", "lightslategray", "lightsteelblue", "lightyellow", "lime", "limegreen", "linen", "magenta", "maroon", "mediumaquamarine", "mediumblue", "mediumorchid", "mediumpurple", "mediumseagreen", "mediumslateblue", "mediumspringgreen", "mediumturquoise", "mediumvioletred", "midnightblue", "mintcream", "mistyrose", "moccasin", "navajowhite", "navy", "oldlace", "olive", "olivedrab", "orange", "orangered", "orchid", "palegoldenrod", "palegreen", "paleturquoise", "palevioletred", "papayawhip", "peachpuff", "peru", "pink", "plum", "powderblue", "purple", "rebeccapurple", "red", "rosybrown", "royalblue", "saddlebrown", "salmon", "sandybrown", "seagreen", "seashell", "sienna", "silver", "skyblue", "slateblue", "slategray", "snow", "springgreen", "steelblue", "tan", "teal", "thistle", "tomato", "turquoise", "violet", "wheat", "white", "whitesmoke", "yellow", "yellowgreen"];
+
+        function sortearCor(cor){
+            return cor.sort(() => Math.random() - 0.5).slice(0,10)
+        }
+
+        const vetorCor = sortearCor(cores)
+
+        const corCerta = vetorCor[Math.floor(Math.random()* vetorCor.length)]
+
+        document.getElementById("lista-cor").textContent = vetorCor.join(' - ')
+
+        document.getElementById("botão").addEventListener("click",() => {
+            const escolhendo = document.getElementById("cor-input").value.toLowerCase().trim()
+            const ajuda = document.getElementById("ajuda")
+
+            if(escolhendo === corCerta){
+                document.body.style.backgroundColor = corCerta
+                ajuda.textContent = "Parabéns! Você acertou"
+                ajuda.style.color = "darkgreen"
+                if(corCerta === "darkgreen"){
+                    ajuda.style.color = "white"
+                }
+            } else{
+                const dica = escolhendo < corCerta ? "alfabeticamente antes" : "alfabeticamente depois";
+                ajuda.textContent = `Errado! Sua cor é ${dica} da cor correta. Tente novamente! `
+                ajuda.style.color = "red"
+            }
+        })
+    </script>
+</body>
+</html>
